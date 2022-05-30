@@ -1,0 +1,115 @@
+#!/bin/bash
+PATH=/bin:/usr/bin ; export PATH
+umask 022
+
+#Name: Patel Shivam
+#Student number: 041043423
+#course Code: CST8102
+#Lab section: 311
+#"mycalc.sh" 
+
+arg1=$1
+arg2=$2
+arg3=$3
+
+#This function is to add value
+function add ()
+{
+	#add arguments
+	echo "Total value after addition is $(($arg1+$arg3))"
+}
+
+#This function is to subtract value
+function subtract ()
+{
+	#subtract arguments
+	echo "Total value after subtraction is $(($arg1-$arg3))"
+}
+
+#This function is called when user run script without argument
+function menu1 ()
+{
+	while [[ $option != "X" ]] || [[ $askInt != "X" ]] || [[ $method != "X" ]] || [[ $ask2ndInt != "X" ]]
+	do
+		echo "What you want to do:-"
+       		echo "C) Calculation"
+      		echo "X) Exit"
+	       	read -p "Select your option: " option
+	       	if [[ $option = "C" ]]
+	        then
+			clear
+			#ask user to enter first integer number
+	        read -p "Please enter an integer number or X to exit: " askInt
+        	#if user enter X instead of integer then script stop and exit
+	        if [[ $askInt = "X" ]]
+        	then
+                	echo 1>&2 "Script ends"
+	        #if user enter integer then ask what they want addition or subtraction
+        	else
+                	sleep 1
+	                clear
+        	        #ask user to select their option (addition or subtraction)
+                	echo "Select one of the following option:-"
+	                echo "+) Addition"
+        	        echo "-) Subtraction"
+	                echo "X) Exit"
+        	        read -p "Enter your option: " method
+                	#if user enter "+" then ask user to enter second integer and add to first integer
+	                if [[ $method = "+" ]]
+        	        then
+                	        sleep 1
+                        	clear
+	                        read -p "Please enter an integer number or X to exit: " ask2ndInt
+        	                #if user enter X instead of second integer then script stop and exit 
+                	        if [[ $ask2ndInt = "X" ]]
+                        	then
+                                	echo 1>&2 "Script ends"
+	                        fi
+        	                echo "Total value after addition is $(($askInt+$ask2ndInt))"
+                	        sleep 1
+                        	clear
+        	        #if user enter "-" then ask user to enter second integer and subtract to first integer
+                	elif [[ $method = "-" ]]
+	                then
+        	                sleep 1
+                	        clear
+                        	read -p "Please enter an integer number or X to exit: " ask2ndInt
+	                        #if user enter X instead of second integer then script stop and exit
+        	                if [[ $ask2ndInt = "X" ]]
+                	        then
+                        	        echo 1>&2 "Script ends"
+	                        fi
+        	                echo "Total value after subtraction is $(($askInt-$ask2ndInt))"
+	                        sleep 3
+        	                clear
+	                #if user enter X then script stop and exit
+        	        elif [[ $method = "X" ]]
+                	then
+                        	echo 1>&2 "Script ends"
+	                fi
+        	fi
+
+		elif [[ $option = "X" ]]
+		then
+			echo 1>&2 "Script ends"
+		fi
+	done	
+}	
+
+#First if-statement run "menu1" function when user forgot to entered argument 
+if [[ $# -lt 3 ]] || [[ $# -eq 0 ]]
+then
+	menu1
+#Second if-statement add 1st argument and 3rd argument if 2nd argument is "+"
+elif [[ $arg2 == "+" ]]
+then
+	add
+#Second if-statement add 1st argument and 3rd argument if 2nd argument is "+"
+elif [[ $arg2 == "-" ]]
+then
+	subtract
+#If user enter invaild number of argument or 2nd argument is anything other than + or -
+else
+	echo 1>&2 "Invaild number of parameter entered or second argument must be + or -."
+fi
+
